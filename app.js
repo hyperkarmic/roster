@@ -60,15 +60,56 @@ const managerQuestions = [
 
 ]
 
+const addTeamQuestions = [
+    {
+        type: "confirm",
+        name: "addTeam",
+        message: "Would you like to add a another team member?",
+        default: true,
+      },
+    {
+        type: 'list',
+        name: 'jobTitle',
+        message: 'what job role does this team member have?',
+        choices: [
+          'Engineer', 'Intern',
+        ],
+        when: (answers) => {
+            return answers.addTeam === true;
+          },
+        },]
+
+
+
 
 
 function init(){
+
     function createManager(){
         inquirer.prompt(managerQuestions).then(answers => {
             const manager = new Manager(answers.managerName, answers.managerId, answers.managerEmail, answers.managerOfficeNumber)
             teamMembers.push(manager);
+            createTeam()
         
         });
+
+        function createTeam() {
+            inquirer.prompt(addTeamQuestions).then(answers => {
+                if (answers.jobTitle == "Engineer") {
+                    createEngineer()
+                }
+                else if(answers.jobTitle == "Intern") {
+                    createIntern()
+                } 
+                else if(answers.jobTitle == "None") {
+                buildTeam()    
+                
+                }
+                
+            })
+
+            buildTeam(fs.writeFileSync(outputPath, render(teamMembers), "utf-8"))
+        }
 
         
 
