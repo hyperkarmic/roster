@@ -1,81 +1,89 @@
- const Manager = require("./lib/Manager");
-const Engineer = require("./lib/Engineer");
-const Intern = require("./lib/Intern");
+const Manager = require("./src/lib/Manager");
+const Engineer = require("./src/lib/Engineer");
+const Intern = require("./src/lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
-//output into output director in root director
-//team html is name of filen
 
-const render = require("./lib/htmlRenderer");
+const render = require("./src/lib/htmlRenderer");
 
-const questions = [
-    {
-        name: "role",
-        message: "select employee role",
-        type: "choice"
-    },
-    {
-        name: "name",
-        message: "enter employee name",
-        type: "input",
-    },
-    {
-        name: "email",
-        message: "enter employee email",
-        type: "input",
-    },
-    {
-        name: "id",
-        message: "enter employee ID",
-        type: "input",
-    },
-    {
-        name: "school",
-        message: "enter intern's school name",
-        type: "input",
-    },
-    {
-        name: "github",
-        message: "enter engineer's github username",
-        type: "input",
-    },
-    {
-        name: "office",
-        message: "enter managers office number",
-        type: "input",
-    },
-]
+let teamMembers = [];
 
-function init(){
-    inquirer.prompt(questions)
+const managerQuestions = [
+    {type: "input",
+     name: "managerName",
+     message: "What is the manager's name?",
+     validate: answer => {
+         if (answer.length < 1){
+             return "please enter a name with at least one character!"
+         }
+         return true;
+     }
+    
+    
+    },
+    {
+        type: "input",
+     name: "managerId",
+     message: "What is the manager's id?",
+     validate: answer => {
+         if (answer.length < 0){
+             return "please enter an id!"
+         }
+         return true;
+
+    }},
+    {
+        type: "input",
+        name: "managerEmail",
+        message: "What is the manager's e-mail?",
+        validate: answer => {
+            if (answer.length < 1){
+                return "please enter a name with at least one character!"
+            }
+            return true;   
+    }},
+    {
+        type: "input",
+     name: "managerOfficeNumber",
+     message: "What is the manager's office number?",
+     validate: answer => {
+         if (answer.length < 0){
+             return "please enter an office number with at least one character!"
+         }
+         return true;
+    }
 }
 
-//overall point - dynamically create team 1)manage x amount of all else
-
-//manager is necessary! engineers and interns aren't
-
-//when creating man/engineer/interns - ask a different set of questions
-
-//3 sets of questions will be needed!
-
-//template file contains relevant questions!
-
-//init should file a 'create manager object' function
-//.then gets those answers and creates new manager object
-//.then render - into HTML
-//new object needs to go into an empty array (.them)
-//new function (who do you want....call function....calls unique function
-//for role - or escapes to render - created roll object pushes to the array!)
+]
 
 
 
+function init(){
+    function createManager(){
+        inquirer.prompt(managerQuestions).then(answers => {
+            const manager = new Manager(answers.managerName, answers.managerId, answers.managerEmail, answers.managerOfficeNumber)
+            teamMembers.push(manager);
+        
+        });
 
+        
+
+    }
+
+    createManager()
+
+}
 
 init()
+
+
+
+
+
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
