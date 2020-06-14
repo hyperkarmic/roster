@@ -163,7 +163,7 @@ function init(){
             else if(answers.jobTitle === "Intern") {
                 createIntern()
             } 
-            else if(answers.addTeam === "None") {
+            else if(answers.jobTitle === "None") {
                 buildTeam()
             }
         })
@@ -201,6 +201,12 @@ function init(){
                 
               }
         )
+    }
+    //this function renders all the team members pushed to the array, to HTML
+    function buildTeam(){
+        fs.writeFileSync(outputPath, render(teamMembers), "utf-8")
+
+        console.log("nailed it")
     }
 
     
