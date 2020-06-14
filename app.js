@@ -12,6 +12,8 @@ const render = require("./src/lib/htmlRenderer");
 
 let teamMembers = [];
 
+//these are the team questions
+
 const addTeamQuestions = [
     {
       type: 'list',
@@ -20,6 +22,8 @@ const addTeamQuestions = [
       choices: ['Manager','Engineer', 'Intern', 'None'],
     },
   ];
+
+  //these are the questions for 'create manager'
 
 const managerQuestions = [
     {type: "input",
@@ -69,28 +73,72 @@ const managerQuestions = [
 
 ]
 
+//these are the questions for 'create employee
+const engineerQuestions = [
+                    
+                            
+    {
+        type: 'input',
+        name: 'name',
+        message: "input engineer's name",
+        validate: answer => {
+            if (answer.length < 1){
+                return "please enter a name with at least one character!"
+            }
+            return true;
+        }
+    },  
+    {
+        type: 'input',
+        name: 'id',
+        message: "Input Engineer's ID number",
+    }, 
+    {
+        type: 'input',
+        name: 'email',
+        message: "Input engineer's email address",
+    }, 
+    {
+        type: 'input',
+        name: 'username',
+        message: "Input engineer's github username",
+    }, 
+]
 
 
 
+
+
+
+//this is the initialiser function - and contains all the 'creator' functions for the individual
+//job roles - as well as the function that renders the array containing the entered team
+//information to the html page!
 
 function init(){
+
+
+    //this first sub-function deploys the logic that allows us to choose what
+    //type of team member is created - or allows us to render a finished team!
+
     function createTeam() {
         inquirer.prompt(addTeamQuestions).then(answers => {
             
             if (answers.jobTitle ==="Manager") {
                 createManager()
             } 
-            else if (answers.jobTitle == "Engineer") {
+            else if (answers.jobTitle === "Engineer") {
                 createEngineer()
             }
-            else if(answers.jobTitle == "Intern") {
+            else if(answers.jobTitle === "Intern") {
                 createIntern()
             } 
-            else if(answers.addTeam == "None") {
+            else if(answers.addTeam === "None") {
                 buildTeam()
             }
         })
     }
+
+    //this function allows us to create a manager
 
     function createManager(){
         inquirer.prompt(managerQuestions).then(answers => {
@@ -100,10 +148,24 @@ function init(){
        });
      }
 
+     //this is the create Engineer function
+     function createEngineer() {
+    inquirer.prompt(engineerQuestions).then(
+        answers => {
+            const engineer = new Engineer(answers.name, answers.id, answers.email, answers.username);
+            teamMembers.push(engineer);
+            createTeam();
+        }
+    )
+}
+
+
+     //
+
     
-//here is the create manager function
+
     createTeam()
-//here is the next function
+
  
 
 }
