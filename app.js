@@ -256,6 +256,8 @@ function init() {
     fs.writeFileSync(outputPath, render(teamMembers), "utf-8");
 
     console.log("The team.html file has now been created and located in the input file");
+    //I've used a console log here as it inputs a message at the end of the process
+    //and using a 'return statement' did not seem to output it!
   }
 
   createManager();
@@ -263,7 +265,7 @@ function init() {
 }
 
 init();
-//initialiser invocation function - sets off app!
+//initializer invocation function - sets off app!
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
