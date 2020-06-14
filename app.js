@@ -73,7 +73,7 @@ const managerQuestions = [
 
 ]
 
-//these are the questions for 'create employee
+//these are the questions for 'create employee'
 const engineerQuestions = [
                     
                             
@@ -102,6 +102,37 @@ const engineerQuestions = [
         type: 'input',
         name: 'username',
         message: "Input engineer's github username",
+    }, 
+]
+
+//these are the questions for 'create intern'
+const internQuestions = [
+    
+    {
+        type: 'input',
+        name: 'name',
+        message: "Input intern's name",
+        validate: answer => {
+            if (answer.length < 1){
+                return "please enter a name with at least one character!"
+            }
+            return true;
+        }
+    },  
+    {
+        type: 'input',
+        name: 'id',
+        message: "Input intern's ID number",
+    }, 
+    {
+        type: 'input',
+        name: 'email',
+        message: "Input intern's email address",
+    }, 
+    {
+        type: 'input',
+        name: 'school',
+        message: "Input intern's school",
     }, 
 ]
 
@@ -160,7 +191,17 @@ function init(){
 }
 
 
-     //
+     //now we add the intern functonality
+     function createIntern() {
+        inquirer.prompt(internQuestions).then(
+            answers => {
+                const intern = new Intern(answers.name, answers.id, answers.email, answers.school);
+                teamMembers.push(intern);
+                createTeam();
+                
+              }
+        )
+    }
 
     
 
